@@ -12,12 +12,12 @@
 
 <div class="container mt-4">
 
-    <div class="d-flex justify-content-between align-items-center mb-3">
+    <div class="mb-3 d-flex justify-content-between align-items-center">
         <h2>Data Peserta Sertifikasi</h2>
 
         <!-- TOMBOL TAMBAH: HANYA MUNCUL UNTUK ADMIN -->
         @if(auth()->user()->role === 'admin')
-            <a href="{{ route('peserta.create') }}" 
+            <a href="{{ route('peserta.create') }}"
                class="btn btn-color text-light fw-bold">
                 Tambah Peserta
             </a>
@@ -33,7 +33,7 @@
     <!-- Form Pencarian -->
     <form action="{{ route('peserta.index') }}"
           method="GET"
-          class="mb-3 d-flex gap-2">
+          class="gap-2 mb-3 d-flex">
 
         <input type="text"
                name="search"
@@ -48,9 +48,9 @@
 
     </form>
 
-    <div class="card shadow-sm">
+    <div class="shadow-sm card">
         <div class="table-responsive">
-            <table class="table table-bordered align-middle">
+            <table class="table align-middle table-bordered">
                 <thead>
                     <tr>
                         <th>No</th>
@@ -87,12 +87,12 @@
                         <td>
                             <!-- DETAIL: Bisa dilihat oleh Admin maupun User biasa -->
                             <a href="{{ route('peserta.show', ['peserta' => $p->id]) }}"
-                               class="btn btn-info btn-sm text-white">
+                               class="text-white btn btn-info btn-sm">
                                 Detail
                             </a>
 
                             <!-- TOMBOL UBAH & HAPUS: HANYA MUNCUL UNTUK ADMIN -->
-                          
+
                                 <a href="{{ route('peserta.edit', ['peserta' => $p->id]) }}"
                                    class="btn btn-warning btn-sm">
                                     Ubah

@@ -7,7 +7,7 @@ use App\Http\Controllers\SkemaController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
-// 1. Halaman Utama (Landing Page) 
+// 1. Halaman Utama (Landing Page)
 Route::get('/', function () {
     return view('welcome');
 })->name('home');
@@ -21,10 +21,12 @@ Route::middleware('guest')->group(function () {
     Route::post('/register', [AuthController::class, 'register']);
 });
 
+
+
 // 3. Authenticated Route (Wajib login untuk masuk sistem)
 Route::middleware('auth')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
-    
+
     // Dashboard
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 

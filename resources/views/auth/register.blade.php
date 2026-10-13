@@ -35,7 +35,7 @@
             border-radius: 6px;
         }
 
-        
+
 
         .btn-register {
             width: 100%;
@@ -62,13 +62,14 @@
 <body>
 
 <div class="register-box">
-    <h2 class="text-center fw-bold font-black" >Daftar Akun Baru</h2>
-    <p class="text-center mb-4 mt-2 font-light">Sistem Data Peserta Sertifikasi</p>
+    <a href="{{ route('home') }}" class="text-decoration-none text-dark fs-5"> < </a>
+    <h2 class="font-black text-center fw-bold" >Daftar Akun Baru</h2>
+    <p class="mt-2 mb-4 font-light text-center">Sistem Data Peserta Sertifikasi</p>
 
     @if ($errors->any())
         <div class="alert alert-danger">
             <strong>Registrasi gagal!</strong>
-            <ul class="mb-0 mt-2">
+            <ul class="mt-2 mb-0">
                 @foreach ($errors->all() as $error)
                     <li>{{ $error }}</li>
                 @endforeach
@@ -79,16 +80,16 @@
     <form action="{{ route('register') }}" method="POST">
         @csrf
 
-        <h5 class="fw-bold font-bold mt-3 mb-3">A. Informasi Akun</h5>
+        <h5 class="mt-3 mb-3 font-bold fw-bold">A. Informasi Akun</h5>
         <div class="row g-3">
             <div class="col-md-6">
                 <label for="username">Username</label>
-                <input type="text" 
+                <input type="text"
                 id="username"
                 name="username"
                 class="form-control @error('username') is-invalid @enderror"
-                value="{{ old('username') }}" 
-                placeholder="Username hanya huruf dan spasi" 
+                value="{{ old('username') }}"
+                placeholder="Username hanya huruf dan spasi"
                 required
                 pattern="[a-zA-Z\s]+">
                 @error('username') <div class="invalid-feedback">{{ $message }}</div> @enderror
@@ -96,39 +97,39 @@
 
             <div class="col-md-6">
                 <label for="email">Email</label>
-                <input type="email" 
-                id="email" 
+                <input type="email"
+                id="email"
                 name="email"
                 class="form-control @error('email') is-invalid @enderror"
                 value="{{ old('email') }}"
-                 placeholder="Masukkan email" 
+                 placeholder="Masukkan email"
                  required>
                 @error('email') <div class="invalid-feedback">{{ $message }}</div> @enderror
             </div>
 
             <div class="col-md-6">
                 <label for="password">Password</label>
-                <input type="password" 
-                id="password" 
+                <input type="password"
+                id="password"
                 name="password"
                 class="form-control @error('password') is-invalid @enderror"
-                placeholder="Minimal 6 karakter" 
-                minlength="6" 
+                placeholder="Minimal 6 karakter"
+                minlength="6"
                 required>
                 @error('password') <div class="invalid-feedback">{{ $message }}</div> @enderror
             </div>
         </div>
 
-        <h5 class="fw-bold font-bold mt-3 mb-3">B. Biodata Peserta</h5>
+        <h5 class="mt-3 mb-3 font-bold fw-bold">B. Biodata Peserta</h5>
         <div class="row g-3">
             <div class="col-md-6">
                 <label for="nama">Nama Lengkap</label>
                 <input type="text"
-                 id="nama" 
+                 id="nama"
                  name="nama"
                 class="form-control @error('nama') is-invalid @enderror"
-                value="{{ old('nama') }}" 
-                placeholder="Masukkan nama lengkap" 
+                value="{{ old('nama') }}"
+                placeholder="Masukkan nama lengkap"
                 required>
                 @error('nama') <div class="invalid-feedback">{{ $message }}</div> @enderror
             </div>
@@ -140,7 +141,7 @@
                 class="form-control @error('nik') is-invalid @enderror"
                 value="{{ old('nik') }}"
                  placeholder="Masukkan NIK"
-                inputmode="numeric" 
+                inputmode="numeric"
                 required>
                 @error('nik') <div class="invalid-feedback">{{ $message }}</div> @enderror
             </div>
@@ -148,7 +149,7 @@
             <div class="col-md-6">
                 <label for="telepon">Nomor Telepon</label>
                 <input type="tel"
-                 id="telepon" 
+                 id="telepon"
                  name="telepon"
                 class="form-control @error('telepon') is-invalid @enderror"
                 value="{{ old('telepon') }}"
@@ -172,7 +173,7 @@
             </div>
         </div>
 
-        <button type="submit" class="btn-register mt-4">Daftar Sekarang</button>
+        <button type="submit" class="mt-4 btn-register">Daftar Sekarang</button>
     </form>
 
     <div class="login-link">

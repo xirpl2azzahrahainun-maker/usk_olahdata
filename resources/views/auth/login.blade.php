@@ -60,15 +60,18 @@
             background: linear-gradient(120deg,#0C97FA,#16E1F5);
         }
 
-       
+
     </style>
 </head>
 
 <body>
 
-    <div class="login-box">
 
-        <h2 class="text-center fw-bold font-medium" >LOGIN</h2>
+    <div class="login-box">
+        <a href="{{ route('home') }}" class="text-decoration-none text-dark fs-5"> < </a>
+
+        <h2 class="font-medium text-center fw-bold" >LOGIN</h2>
+
 
         @if($errors->any())
             <div class="alert alert-danger">
@@ -87,7 +90,7 @@
                        value="{{ old('email') }}"
                        placeholder="Masukkan email"
                        required
-                       autocomplete="off" 
+                       autocomplete="off"
                        class="mb-3">
             </div>
 
@@ -108,8 +111,8 @@
             </div>
 
             <div style=" margin top:12px; center; text-align: center; ">
-                <p class="mt-4 fw-bold font-medium">belum memiliki akun?</p>
-                <a href="{{route('register')}}" class="text-primary text-decoration-none">daftar sekarang</a> 
+                <p class="mt-4 font-medium fw-bold">belum memiliki akun?</p>
+                <a href="{{route('register')}}" class="text-primary text-decoration-none">daftar sekarang</a>
             </div>
         </form>
 
