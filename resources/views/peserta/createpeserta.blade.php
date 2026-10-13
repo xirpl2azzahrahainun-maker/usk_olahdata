@@ -133,7 +133,7 @@
 
             <div class="d-flex gap-2">
 
-                <a href="{{ route('peserta.Datapeserta') }}"
+                <a href="{{ route('peserta.index') }}"
                    class="btn btn-secondary mt-5">
                     Batal
                 </a>

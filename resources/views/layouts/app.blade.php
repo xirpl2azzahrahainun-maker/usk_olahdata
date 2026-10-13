@@ -52,9 +52,13 @@
             <a class="navbar-brand fw-bold color" href="{{ route('dashboard') }}">Akses Data Peserta Sertifikasi</a>
            <div class="d-flex align-items-center gap-3 margin-right: 20px;">
                 <a href="{{ route('dashboard') }}" class="text-light  text-decoration-none" >Beranda</a>
-                <a href="{{ route('peserta.Datapeserta') }}" class="text-light   text-decoration-none">Data Peserta</a>
+                <a href="{{ route('peserta.index') }}" class="text-light   text-decoration-none">Data Peserta</a>
                 <a href="{{ route('dataskema.index') }}" class="text-light   text-decoration-none">Data Skema</a>
-                
+
+                @if(auth()->user()->role === 'admin')
+                <a href="{{ route('user.index') }}" class="nav-link text-light">Data Pendaftar</a>
+                @endif
+
                 <form action="{{ route('logout') }}" method="POST" class="m-0">
                     @csrf
                     <button type="submit" class="btn btn-danger" style="cursor: pointer; margin-left: 30px; ">

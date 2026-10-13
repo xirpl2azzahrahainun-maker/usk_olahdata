@@ -4,64 +4,34 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\PesertaController;
 use App\Http\Controllers\SkemaController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
-
+// 1. Halaman Utama (Landing Page) 
 Route::get('/', function () {
-    return redirect()->route('login');
-});
+    return view('welcome');
+})->name('home');
 
-
-// Dashboard
-Route::get('/dashboard', [DashboardController::class, 'index'])
-    ->middleware('auth')
-    ->name('dashboard');
-
-
-// Guest Route (Login & Register)
+// 2. Guest Route (Login & Register)
 Route::middleware('guest')->group(function () {
-
-    Route::get('/login', [AuthController::class, 'showLogin'])
-        ->name('login');
-
+    Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
     Route::post('/login', [AuthController::class, 'login']);
 
-    Route::get('/register', [AuthController::class, 'showRegister'])
-        ->name('register');
-
+    Route::get('/register', [AuthController::class, 'showRegister'])->name('register');
     Route::post('/register', [AuthController::class, 'register']);
 });
 
-
-// Authenticated Route
+// 3. Authenticated Route (Wajib login untuk masuk sistem)
 Route::middleware('auth')->group(function () {
-    // Logout
-    Route::post('/logout', [AuthController::class, 'logout'])
-        ->name('logout');
-    // DATA PESERTA
-    Route::get('/peserta', [PesertaController::class, 'index'])
-        ->name('peserta.Datapeserta');
+    Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+    
+    // Dashboard
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
-    Route::get('/peserta/tambah', [PesertaController::class, 'create'])
-        ->name('peserta.create');
-
-    Route::post('/peserta', [PesertaController::class, 'store'])
-        ->name('peserta.store');
-
-    Route::get('/peserta/{peserta}', [PesertaController::class, 'show'])
-        ->name('peserta.show');
-
-    Route::get('/peserta/{peserta}/edit', [PesertaController::class, 'edit'])
-        ->name('peserta.edit');
-
-    Route::put('/peserta/{peserta}', [PesertaController::class, 'update'])
-        ->name('peserta.update');
-
-    Route::delete('/peserta/{peserta}', [PesertaController::class, 'destroy'])
-        ->name('peserta.destroy');
-
-    // DATA SKEMA
-   
-
+    // CRUD Peserta & Skema otomatis dengan Resource Route
+    Route::resource('peserta', PesertaController::class)->parameters(['peserta' => 'peserta']);
     Route::resource('dataskema', SkemaController::class);
+
+    // 4. CRUD User (Manajemen Data User / Pendaftar sesuai gambar phpMyAdmin)
+    Route::resource('user', UserController::class);
 });

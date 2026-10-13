@@ -68,7 +68,7 @@
 
     <div class="login-box">
 
-        <h2>LOGIN</h2>
+        <h2 class="text-center fw-bold font-medium" >LOGIN</h2>
 
         @if($errors->any())
             <div class="alert alert-danger">
@@ -87,7 +87,8 @@
                        value="{{ old('email') }}"
                        placeholder="Masukkan email"
                        required
-                       autocomplete="off">
+                       autocomplete="off" 
+                       class="mb-3">
             </div>
 
             <div style="margin-top: 15px;">
@@ -96,7 +97,8 @@
                        name="password"
                        placeholder="Masukkan password"
                        autocomplete="off"
-                       required>
+                       required
+                       class="mb-3">
             </div>
 
             <div style="margin-top: 20px;">
@@ -106,9 +108,9 @@
             </div>
 
             <div style=" margin top:12px; center; text-align: center; ">
-                <p>belum memiliki akun?</p>
-                <a href="{{route('register')}}" text-primary>daftar sekarang</a> 
-</div>
+                <p class="mt-4 fw-bold font-medium">belum memiliki akun?</p>
+                <a href="{{route('register')}}" class="text-primary text-decoration-none">daftar sekarang</a> 
+            </div>
         </form>
 
     </div>

@@ -8,70 +8,132 @@ use Illuminate\Http\Request;
 
 class PesertaController extends Controller
 {
-    public function index(Request $request)
-    {
-        $search = $request->input('search');
-        $pesertas = Peserta::with('skema')
-            ->when($search, function ($query, $search) {
-                return $query->where('nama', 'like', "%{$search}%");
-            })
-            ->paginate(10);
+    
+public function index(Request $request)
+{
+    $search = $request->input('search');
+    $user = auth()->user();
 
-        return view('peserta.Datapeserta', compact('pesertas', 'search'));
+    $query = Peserta::with(['user', 'skema']);
+
+    // Admin melihat semua peserta, termasuk yang user_id-nya NULL.
+    if ($user->role !== 'admin') {
+        $query->where('user_id', $user->id);
     }
+
+    if ($search) {
+        $query->where(function ($q) use ($search) {
+            $q->where('nama', 'like', "%{$search}%")
+              ->orWhere('nik', 'like', "%{$search}%");
+        });
+    }
+
+    $pesertas = $query->paginate(10);
+
+    return view('peserta.index', compact('pesertas', 'search'));
+}
+
 
     public function create()
     {
+        // Hanya admin yang boleh menambahkan peserta.
+        abort_unless(auth()->user()->role === 'admin', 403);
+
         $skemas = Skema::all();
+
         return view('peserta.createpeserta', compact('skemas'));
     }
 
-    public function store(Request $request)
-    {
-        $request->validate([
-            'nama'     => 'required',
-            'nik'      => 'required|unique:pesertas,nik',
-            'email'    => 'required|email',
-            'telepon'  => 'required',
-            'skema_id' => 'required|exists:skemas,id',
-        ]);
+   
+public function store(Request $request)
+{
+    abort_unless(auth()->user()->role === 'admin', 403);
 
-        Peserta::create($request->all());
+    $validated = $request->validate([
+        'nama' => 'required|string|max:255',
+        'nik' => 'required|string|max:255|unique:pesertas,nik',
+        'email' => 'required|email|max:255',
+        'telepon' => 'required|string|max:20',
+        'skema_id' => 'required|exists:skemas,id',
+    ]);
 
-        return redirect()->route('peserta.Datapeserta')->with('success', 'Data peserta berhasil ditambahkan.');
-    }
+    // Peserta yang ditambahkan admin belum tentu punya akun.
+    $validated['user_id'] = null;
+
+Peserta::create($validated);
+
+   
+
+    return redirect()
+        ->route('peserta.index')
+        ->with('success', 'Data peserta berhasil ditambahkan.');
+}
+
 
     public function show(Peserta $peserta)
     {
-        $peserta->load('skema');
+        $user = auth()->user();
+
+        // User hanya boleh membuka detail miliknya sendiri.
+        abort_if(
+            $user->role !== 'admin' && $peserta->user_id != $user->id,
+            403
+        );
+
+        $peserta->load(['user', 'skema']);
+
         return view('peserta.showpeserta', compact('peserta'));
     }
 
     public function edit(Peserta $peserta)
     {
+        $user = auth()->user();
+
+        abort_if(
+            $user->role !== 'admin' && $peserta->user_id != $user->id,
+            403
+        );
+
         $skemas = Skema::all();
+
         return view('peserta.editpeserta', compact('peserta', 'skemas'));
     }
 
     public function update(Request $request, Peserta $peserta)
     {
-        $request->validate([
-            'nama'     => 'required',
-            'nik'      => 'required|unique:pesertas,nik,' . $peserta->id,
-            'email'    => 'required|email',
-            'telepon'  => 'required',
+        $user = auth()->user();
+
+        abort_if(
+            $user->role !== 'admin' && $peserta->user_id != $user->id,
+            403
+        );
+
+        $validated = $request->validate([
+            'nama'     => 'required|string|max:255',
+            'nik'      => 'required|string|max:255|unique:pesertas,nik,' . $peserta->id,
+            'email'    => 'required|email|max:255',
+            'telepon'  => 'required|string|max:20',
             'skema_id' => 'required|exists:skemas,id',
         ]);
 
-        $peserta->update($request->all());
+        // User tidak boleh memindahkan kepemilikan data.
+        // Admin juga tidak mengubah user_id melalui form.
+        $peserta->update($validated);
 
-        return redirect()->route('peserta.Datapeserta')->with('success', 'Data peserta berhasil diperbarui.');
+        return redirect()
+            ->route('peserta.index')
+            ->with('success', 'Data peserta berhasil diperbarui.');
     }
 
     public function destroy(Peserta $peserta)
     {
+        // Hanya admin yang boleh menghapus peserta.
+        abort_unless(auth()->user()->role === 'admin', 403);
+
         $peserta->delete();
 
-        return redirect()->route('peserta.Datapeserta')->with('success', 'Data peserta berhasil dihapus.');
+        return redirect()
+            ->route('peserta.index')
+            ->with('success', 'Data peserta berhasil dihapus.');
     }
 }

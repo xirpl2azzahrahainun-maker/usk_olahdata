@@ -72,7 +72,7 @@
                 </div>
 
                 <div class="d-flex gap-2">
-                    <a href="{{ route('peserta.Datapeserta') }}" class="btn btn-secondary">Batal</a>
+                    <a href="{{ route('peserta.index') }}" class="btn btn-secondary">Batal</a>
                     <button type="submit" class="btn btn-color text-light fw-bold">Simpan Perubahan</button>
                 </div>
             </form>

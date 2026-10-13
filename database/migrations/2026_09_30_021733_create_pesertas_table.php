@@ -1,3 +1,4 @@
+
 <?php
 
 use Illuminate\Database\Migrations\Migration;
@@ -6,26 +7,29 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
         Schema::create('pesertas', function (Blueprint $table) {
             $table->id();
+
+            $table->foreignId('user_id')
+                ->nullable()
+                ->constrained('users')
+                ->nullOnDelete();
+
             $table->string('nama');
             $table->string('nik')->unique();
             $table->string('email');
             $table->string('telepon');
-            // Relasi ke tabel skemas
-            $table->foreignId('skema_id')->constrained('skemas')->onDelete('cascade');
+
+            $table->foreignId('skema_id')
+                ->constrained('skemas')
+                ->onDelete('cascade');
+
             $table->timestamps();
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('pesertas');

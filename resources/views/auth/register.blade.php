@@ -1,145 +1,184 @@
+
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register</title>
+    <title>Register Peserta</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <style>
         body {
             font-family: Arial, sans-serif;
-            background: #f1f5f9;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            background: linear-gradient(120deg, #235347, #163B32, #0B2B26, #051F20);
             min-height: 100vh;
-            background: linear-gradient(120deg, #235347 , #163B32 , #0B2B26, #051F20);
+            padding: 30px 15px;
         }
 
         .register-box {
             background: white;
-            width: 350px;
+            max-width: 700px;
+            margin: auto;
             padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            border-radius: 12px;
         }
 
-        h2 {
+
+        .subtitle, .login-link {
             text-align: center;
-            color: #0f172a;
-            margin-bottom: 25px;
+            color: #64748b;
         }
 
-        label {
-            color: #334155;
-            font-weight: bold;
-        }
 
-        input {
-            width: 100%;
+        .form-control, .form-select {
             padding: 10px;
-            margin-top: 5px;
-            border: 1px solid #cbd5e1;
             border-radius: 6px;
-            box-sizing: border-box;
         }
 
-        button {
+        
+
+        .btn-register {
             width: 100%;
-            padding: 10px;
-            background: #2563eb;
+            padding: 12px;
+            background: linear-gradient(120deg, #502d0a, #a36b31);
             color: white;
             border: none;
             border-radius: 6px;
-            cursor: pointer;
-            background: linear-gradient(120deg,#502d0a ,#a36b31);
+            font-weight: bold;
         }
 
-        button:hover {
-            background: linear-gradient(120deg,#0C97FA,#16E1F5);
+        .btn-register:hover {
+            background: linear-gradient(120deg, #235347, #163B32);
         }
 
-        .error {
-            color: red;
-            background: #fee2e2;
-            padding: 10px;
-            border-radius: 6px;
-            margin-bottom: 15px;
-        }
-
-        .login-link {
-            text-align: center;
-            margin-top: 15px;
-            color: #475569;
-        }
-
+        .login-link { margin-top: 20px; }
         .login-link a {
-            color: #2563eb;
+            color: #235347;
+            font-weight: bold;
             text-decoration: none;
         }
     </style>
 </head>
-
 <body>
 
-    <div class="register-box">
+<div class="register-box">
+    <h2 class="text-center fw-bold font-black" >Daftar Akun Baru</h2>
+    <p class="text-center mb-4 mt-2 font-light">Sistem Data Peserta Sertifikasi</p>
 
-        <h2>Daftar Akun Baru</h2>
+    @if ($errors->any())
+        <div class="alert alert-danger">
+            <strong>Registrasi gagal!</strong>
+            <ul class="mb-0 mt-2">
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
 
-        @if ($errors->any())
-    <div class="error">
-        {{ $errors->first() }}
-    </div>
-@endif
+    <form action="{{ route('register') }}" method="POST">
+        @csrf
 
-        <form action="{{ route('register') }}" method="POST">
-
-            @csrf
-
-            <div>
-                <label>Nama</label>
-
-                <input type="text"
-                       name="username"
-                       value="{{ old('username') }}"
-                       placeholder="Masukkan nama"
-                       required>
+        <h5 class="fw-bold font-bold mt-3 mb-3">A. Informasi Akun</h5>
+        <div class="row g-3">
+            <div class="col-md-6">
+                <label for="username">Username</label>
+                <input type="text" 
+                id="username"
+                name="username"
+                class="form-control @error('username') is-invalid @enderror"
+                value="{{ old('username') }}" 
+                placeholder="Username hanya huruf dan spasi" 
+                required
+                pattern="[a-zA-Z\s]+">
+                @error('username') <div class="invalid-feedback">{{ $message }}</div> @enderror
             </div>
 
-            <div style="margin-top: 15px;">
-                <label>Email</label>
-
-                <input type="email"
-                       name="email"
-                       value="{{ old('email') }}"
-                       placeholder="Masukkan email"
-                       required>
+            <div class="col-md-6">
+                <label for="email">Email</label>
+                <input type="email" 
+                id="email" 
+                name="email"
+                class="form-control @error('email') is-invalid @enderror"
+                value="{{ old('email') }}"
+                 placeholder="Masukkan email" 
+                 required>
+                @error('email') <div class="invalid-feedback">{{ $message }}</div> @enderror
             </div>
 
-            <div style="margin-top: 15px;">
-                <label>Password</label>
-
-                <input type="password"
-                       name="password"
-                       placeholder="Minimal 4 karakter"
-                       required>
+            <div class="col-md-6">
+                <label for="password">Password</label>
+                <input type="password" 
+                id="password" 
+                name="password"
+                class="form-control @error('password') is-invalid @enderror"
+                placeholder="Minimal 6 karakter" 
+                minlength="6" 
+                required>
+                @error('password') <div class="invalid-feedback">{{ $message }}</div> @enderror
             </div>
-
-            <div style="margin-top: 20px;">
-                <button type="submit">
-                    Register
-                </button>
-            </div>
-
-        </form>
-
-        <div class="login-link">
-            Sudah punya akun?
-            <a href="{{ route('login') }}">Login di sini</a>
         </div>
 
+        <h5 class="fw-bold font-bold mt-3 mb-3">B. Biodata Peserta</h5>
+        <div class="row g-3">
+            <div class="col-md-6">
+                <label for="nama">Nama Lengkap</label>
+                <input type="text"
+                 id="nama" 
+                 name="nama"
+                class="form-control @error('nama') is-invalid @enderror"
+                value="{{ old('nama') }}" 
+                placeholder="Masukkan nama lengkap" 
+                required>
+                @error('nama') <div class="invalid-feedback">{{ $message }}</div> @enderror
+            </div>
+
+            <div class="col-md-6">
+                <label for="nik">NIK</label>
+                <input type="text"
+                 id="nik" name="nik"
+                class="form-control @error('nik') is-invalid @enderror"
+                value="{{ old('nik') }}"
+                 placeholder="Masukkan NIK"
+                inputmode="numeric" 
+                required>
+                @error('nik') <div class="invalid-feedback">{{ $message }}</div> @enderror
+            </div>
+
+            <div class="col-md-6">
+                <label for="telepon">Nomor Telepon</label>
+                <input type="tel"
+                 id="telepon" 
+                 name="telepon"
+                class="form-control @error('telepon') is-invalid @enderror"
+                value="{{ old('telepon') }}"
+                 required>
+                @error('telepon') <div class="invalid-feedback">{{ $message }}</div> @enderror
+            </div>
+
+            <div class="col-md-6">
+                <label for="skema_id">Skema Sertifikasi</label>
+                <select id="skema_id" name="skema_id"
+                    class="form-select @error('skema_id') is-invalid @enderror" required>
+                    <option value="">-- Pilih Skema --</option>
+                    @foreach ($skemas as $skema)
+                        <option value="{{ $skema->id }}"
+                            {{ old('skema_id') == $skema->id ? 'selected' : '' }}>
+                            {{ $skema->nama_skema }}
+                        </option>
+                    @endforeach
+                </select>
+                @error('skema_id') <div class="invalid-feedback">{{ $message }}</div> @enderror
+            </div>
+        </div>
+
+        <button type="submit" class="btn-register mt-4">Daftar Sekarang</button>
+    </form>
+
+    <div class="login-link">
+        Sudah punya akun? <a href="{{ route('login') }}">Login di sini</a>
     </div>
+</div>
 
 </body>
 </html>

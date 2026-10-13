@@ -23,9 +23,11 @@
 
     <h2>Data Skema Sertifikasi</h2>
 
+    @if(auth()->user()->role === 'admin')
     <a href="{{ route('dataskema.create') }}" class="btn custom-color text-white fw-bold">
         + Tambah Skema
     </a>
+    @endif
 
 </div>
 
@@ -76,17 +78,21 @@
                     </td>
 
                     <td>
+                      
                         <a href="{{ route('dataskema.show', $skema->id) }}"
                            class="btn btn-color text-white fw-bold btn-sm">
                             show
                         </a>
+                        
 
-
+  @if(auth()->user()->role === 'admin')
                         <a href="{{ route('dataskema.edit', $skema->id) }}"
                            class="btn btn-warning btn-sm">
                             Ubah
                         </a>
+                        @endif
 
+                          @if(auth()->user()->role === 'admin')
                         <form action="{{ route('dataskema.destroy', $skema->id) }}"
                               method="POST"
                               style="display:inline;">
@@ -101,6 +107,7 @@
                             </button>
 
                         </form>
+                        @endif
 
                          
 
