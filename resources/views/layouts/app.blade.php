@@ -47,13 +47,13 @@
 <body class="bg-light">
 
     <!-- 1. Navbar -->
-    <nav class="navbar navbar-expand-lg custom-navbar shadow-sm">
+    <nav class="shadow-sm navbar navbar-expand-lg custom-navbar">
         <div class="container">
-            <a class="navbar-brand fw-bold color" href="{{ route('dashboard') }}">Akses Data Peserta Sertifikasi</a>
+            <a class="navbar-brand fw-bold color text-light" href="{{ route('dashboard') }}">Akses Data Peserta Sertifikasi</a>
            <div class="d-flex align-items-center gap-3 margin-right: 20px;">
-                <a href="{{ route('dashboard') }}" class="text-light  text-decoration-none" >Beranda</a>
-                <a href="{{ route('peserta.index') }}" class="text-light   text-decoration-none">Data Peserta</a>
-                <a href="{{ route('dataskema.index') }}" class="text-light   text-decoration-none">Data Skema</a>
+                <a href="{{ route('dashboard') }}" class="text-light text-decoration-none" >Beranda</a>
+                <a href="{{ route('peserta.index') }}" class="text-light text-decoration-none">Data Peserta</a>
+                <a href="{{ route('dataskema.index') }}" class="text-light text-decoration-none">Data Skema</a>
 
                 @if(auth()->user()->role === 'admin')
                 <a href="{{ route('user.index') }}" class="nav-link text-light">Data Pendaftar</a>
@@ -75,17 +75,17 @@
     </main>
 
     <!-- 3. Footer -->
-    <footer class="mt-auto py-4 text-white custom-color" >
+    <footer class="py-4 mt-auto text-white custom-color" >
         <div class="container">
             <div class="row gy-3 align-items-center">
                 <!-- Brand & Deskripsi -->
-                <div class="col-md-6 text-center text-md-start">
-                    <h6 class="fw-bold mb-1 text-light">Data Peserta Sertifikasi</h6>
+                <div class="text-center col-md-6 text-md-start">
+                    <h6 class="mb-1 fw-bold text-light">Data Peserta Sertifikasi</h6>
                     <small class="text-white-50">kembangkan potensi anak bangsa</small>
                 </div>
 
                 <!-- Hak Cipta -->
-                <div class="col-md-6 text-center text-md-end">
+                <div class="text-center col-md-6 text-md-end">
                     <small class="text-white-50"> {{ date('Y') }} All rights reserved.</small>
                 </div>
             </div>

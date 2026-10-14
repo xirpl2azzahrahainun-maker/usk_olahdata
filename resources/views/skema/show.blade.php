@@ -12,16 +12,16 @@
     .btn-color{
         background: linear-gradient(120deg,#502d0a ,#a36b31);
         border: none;
-        
+
     }
     </style>
 <div class="container py-4">
-    <div class="card shadow-sm border-0">
-        <div class="card-header custom-color text-white fw-bold">
+    <div class="border-0 shadow-sm card">
+        <div class="text-white card-header custom-color fw-bold">
             Detail Data Skema Sertifikasi
         </div>
         <div class="card-body">
-            <table class="table table-striped align-middle">
+            <table class="table align-middle table-striped">
                 <tr>
                     <th style="width: 200px;">Kode Skema</th>
                     <td>{{ $dataskema->kode_skema }}</td>
@@ -35,21 +35,23 @@
                     <th>Jenis Skema</th>
                     <td class="fw-bold">{{ $dataskema->tipe_skema }}</td>
                 </tr>
-                
+
                 <tr>
                     <th>Deskripsi</th>
                     <td>{{ $dataskema->deskripsi }}</td>
                 </tr>
-                
+
             </table>
 
             <!-- Tombol Aksi -->
-            <div class="mt-4 d-flex gap-2">
+            <div class="gap-2 mt-4 d-flex">
                 <!-- Kembalinya mengarah ke route manual kamu -->
                 <a href="{{ route('dataskema.index') }}" class="btn btn-secondary">Kembali</a>
-                
+
+                 @if(auth()->user()->role === 'admin')
                 <!-- Edit mengarah ke route edit dengan parameter ID peserta -->
                 <a href="{{ route('dataskema.edit', $dataskema->id) }}" class="btn btn-warning">Edit Data</a>
+                @endif
             </div>
         </div>
     </div>

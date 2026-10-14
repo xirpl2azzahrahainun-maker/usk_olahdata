@@ -129,9 +129,18 @@ public function store(Request $request)
 
         // User tidak boleh memindahkan kepemilikan data.
         // Admin juga tidak mengubah user_id melalui form.
-        $peserta->update($validated);
 
-        return redirect()
+
+        //harusnya menambahkan update user juga , jadi ketika nama di peserta di ubah .. ini terhubung ke user
+     $peserta->update($validated);
+
+    if ($peserta->user_id) {
+        $peserta->user()->update([
+            'username' => $request->nama,
+            'email'    => $request->email,
+        ]);
+    }
+    return redirect()
             ->route('peserta.index')
             ->with('success', 'Data peserta berhasil diperbarui.');
     }

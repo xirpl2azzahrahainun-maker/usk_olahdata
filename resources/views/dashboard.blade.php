@@ -5,7 +5,7 @@
 <style>
     .custom-color {
         background: linear-gradient(120deg, #235347, #163B32, #0B2B26, #051F20);
-        color: white; /* Supaya teks di banner jelas terbaca */
+        color: white;
     }
 
     .btn-color {
@@ -17,12 +17,12 @@
 <div class="container py-5">
 
     <!-- Banner -->
-    <div class="hero-banner text-center p-5 rounded-3 shadow custom-color mb-5">
-        <h1 class="fw-bold mb-3">
+    <div class="p-5 mb-5 text-center shadow hero-banner rounded-3 custom-color">
+        <h1 class="mb-3 fw-bold">
             Selamat Datang, {{ auth()->user()->username ?? 'Pengguna' }}!
         </h1>
 
-        <p class="fs-4 mb-2">
+        <p class="mb-2 fs-4">
             Sistem Data Peserta Sertifikasi
         </p>
 
@@ -30,45 +30,48 @@
             Kelola data peserta dan skema sertifikasi dengan mudah dan aman.
         </p>
 
-        <div class="d-flex justify-content-center gap-2">
+        <div class="gap-2 d-flex justify-content-center">
             <a href="{{ route('peserta.index') }}"
-               class="btn btn-color text-light fw-bold px-4 py-2">
+               class="px-4 py-2 btn btn-color text-light fw-bold">
                 Data Peserta
             </a>
 
             <a href="{{ route('dataskema.index') }}"
-               class="btn btn-outline-light px-4 py-2">
+               class="px-4 py-2 btn btn-outline-light">
                 Data Skema
             </a>
         </div>
     </div>
 
     <!-- Statistik -->
+    {{-- ga perlu di tampilkan ke user , karena akses dashboard mereka tampilin punya mereka --}}
+      @if(auth()->user()->role === 'admin')
     <div class="row g-4">
         <!-- Total Skema -->
         <div class="col-md-6">
-            <div class="card shadow-sm border-0 h-100">
-                <div class="card-body text-center py-4">
-                    <h5 class="card-title fw-bold text-muted mb-3">Total Skema Sertifikasi</h5>
-                    <h2 class="card-text display-4 fw-bold text-success">
+            <div class="border-0 shadow-sm card h-100">
+                <div class="py-4 text-center card-body">
+                    <h5 class="mb-3 card-title fw-bold text-muted">Total Skema Sertifikasi</h5>
+                    <h2 class="card-text display-4 fw-bold">
                         {{ $totalskema ?? 0 }}
                     </h2>
                 </div>
             </div>
         </div>
 
-        <!-- Total Peserta --> 
+        <!-- Total Peserta -->
         <div class="col-md-6">
-            <div class="card shadow-sm border-0 h-100">
-                <div class="card-body text-center py-4">
-                    <h5 class="card-title fw-bold text-muted mb-3">Total Peserta</h5>
-                    <h2 class="card-text display-4 fw-bold text-primary">
+            <div class="border-0 shadow-sm card h-100">
+                <div class="py-4 text-center card-body">
+                    <h5 class="mb-3 card-title fw-bold text-muted">Total Peserta</h5>
+                    <h2 class="card-text display-4 fw-bold">
                         {{ $totalpeserta ?? 0 }}
                     </h2>
                 </div>
             </div>
         </div>
     </div>
+    @endif
 
 </div>
 

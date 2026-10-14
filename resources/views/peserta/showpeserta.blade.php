@@ -11,7 +11,7 @@
     .btn-color{
         background: linear-gradient(120deg,#502d0a ,#a36b31);
         border: none;
-        
+
     }
     </style>
 <div class="container py-4">
@@ -51,7 +51,7 @@
             <div class="mt-4 d-flex gap-2">
                 <!-- Kembalinya mengarah ke route manual kamu -->
                 <a href="{{ route('peserta.index') }}" class="btn btn-secondary">Kembali</a>
-                
+
                <!-- Tombol Edit: Hanya muncul jika akun yang login adalah ADMIN ATAU pemilik data tersebut -->
 @if(auth()->user()->role === 'admin' || $peserta->user_id === auth()->id())
     <a href="{{ route('peserta.edit', $peserta->id) }}" class="btn btn-warning">Edit Data Saya</a>

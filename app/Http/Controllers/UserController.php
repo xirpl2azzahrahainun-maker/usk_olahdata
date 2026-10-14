@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Peserta;
 use App\Models\Skema;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -17,10 +18,10 @@ class UserController extends Controller
     return view('user.index', compact('users'));
 }
 
-    // Menampilkan form tambah user 
+    // Menampilkan form tambah user
    public function create()
 {
-    
+
     $skemas = Skema::all();
     return view('user.create', compact('skemas'));
 }
@@ -66,27 +67,41 @@ class UserController extends Controller
             'role'     => 'required|in:admin,user',
         ]);
 
+
         $data = [
             'username' => $request->username,
             'email'    => $request->email,
             'role'     => $request->role,
         ];
 
-      
+
         if ($request->filled('password')) {
             $request->validate(['password' => 'min:6']);
             $data['password'] = Hash::make($request->password);
         }
 
+
+
         $user->update($data);
+
+         //mengupdate nama dan email dari user , jadi user di update data peseryta ikut ke update
+        Peserta::where('user_id', $user->id)->update([
+            'nama'  => $request->username,
+            'email' => $request->email,
+        ]);
+
 
         return redirect()->route('user.index')->with('success', 'Data user berhasil diperbarui.');
     }
 
     // Menghapus user
     public function destroy(User $user)
+
     {
+        //ngambil user_id dan hapus user ini berdasarkan id nya 
+      Peserta::where('user_id', $user->id)->delete();
         $user->delete();
+
 
         return redirect()->route('user.index')->with('success', 'Data user berhasil dihapus.');
     }

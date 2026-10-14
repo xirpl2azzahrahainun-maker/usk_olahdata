@@ -8,6 +8,10 @@
         background: linear-gradient(120deg,#235347 , #163B32 , #0B2B26, #051F20);
         border: none;
     }
+
+    .custom-color{
+        background: linear-gradient(120deg,#235347 , #163B32 , #0B2B26, #051F20);
+    }
 </style>
 
 <div class="container mt-4">
@@ -87,7 +91,7 @@
                         <td>
                             <!-- DETAIL: Bisa dilihat oleh Admin maupun User biasa -->
                             <a href="{{ route('peserta.show', ['peserta' => $p->id]) }}"
-                               class="text-white btn btn-info btn-sm">
+                               class="text-white btn btn-info custom-color">
                                 Detail
                             </a>
 

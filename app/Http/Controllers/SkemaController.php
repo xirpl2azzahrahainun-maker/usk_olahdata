@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 
 class SkemaController extends Controller
 {
-    
+
     public function index()
     {
         $skemas = Skema::all();
@@ -16,14 +16,14 @@ class SkemaController extends Controller
     }
 
 
-  
+
     public function create()
     {
         return view('skema.create');
     }
 
 
-  
+
     public function store(Request $request)
     {
         $request->validate([
@@ -61,7 +61,7 @@ class SkemaController extends Controller
     }
 
 
-   
+
     public function show(Skema $dataskema)
     {
         $dataskema->load('peserta');
@@ -70,20 +70,20 @@ class SkemaController extends Controller
     }
 
 
-   
+
     public function edit(Skema $dataskema)
     {
         return view('skema.edit', compact('dataskema'));
     }
 
 
-    
+
     public function update(Request $request, Skema $dataskema)
     {
         $request->validate([
             'kode_skema' => 'required|unique:skemas,kode_skema,' . $dataskema->id,
             'nama_skema' => 'required',
-            'tipe_skema' => 'required|in:KKNI,OKUPASI,KLASTER',
+            'tipe_skema' => 'required|in:KKNI,OKUPASI,KLASTER' .$dataskema->id,
             'deskripsi' => 'nullable',
         ]);
 
@@ -100,7 +100,7 @@ class SkemaController extends Controller
     }
 
 
-    
+
     public function destroy(Skema $dataskema)
     {
         $dataskema->delete();
